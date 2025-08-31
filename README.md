@@ -88,14 +88,34 @@ src/
 1. 프로젝트 클론
 
 ```bash
-git clone <repository-url>
-cd portfolio-dashboard
+git clone https://github.com/KIMMINGYU99/portfoilo_dashboard.git
+cd portfoilo_dashboard
 ```
 
 2. 의존성 설치
 
 ```bash
 npm install
+```
+
+### 사용 가능한 스크립트
+
+```bash
+# 개발 서버 (http://localhost:3000)
+npm run dev
+
+# 프로덕션 빌드
+npm run build
+
+# 빌드 결과 미리보기 (http://localhost:4173)
+npm run preview
+
+# 린트 검사
+npm run lint
+
+# 스토리북 실행/빌드
+npm run storybook
+npm run build-storybook
 ```
 
 3. 환경 변수 설정
@@ -215,26 +235,50 @@ npm run dev
 
 ## 🚀 배포
 
-### Vercel 배포
+### Vercel 배포 가이드
 
-1. Vercel 계정 연결
-2. 환경변수 설정
-3. 자동 배포 설정
+1. 프로젝트 임포트: Vercel → Add New → New Project → GitHub에서 `portfoilo_dashboard` 선택
+2. 빌드 설정:
 
-### 환경변수
+- Framework Preset: Vite
+- Install Command: `npm ci`
+- Build Command: `npm run build`
+- Output Directory: `dist`
+
+3. 환경변수(Production/Preview):
+
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY`
+
+4. 첫 배포 후 확인:
+
+- 공개 URL 접속 확인
+- Supabase Project → Auth/CORS 허용 도메인에 Vercel 도메인 추가
+
+환경변수 예시:
 
 ```
 VITE_SUPABASE_URL=your_supabase_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-## 📚 참고 문서
+### 빌드 트러블슈팅
 
-- [PRD.md](./PRD.md): 제품 요구사항 문서
-- [ERD.md](./ERD.md): 데이터베이스 설계
-- [TECH_STACK.md](./TECH_STACK.md): 기술 스택 상세
-- [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md): 프로젝트 구조
-- [COMPONENT_DESIGN.md](./COMPONENT_DESIGN.md): 컴포넌트 설계
+- 스토리/스토리북이 빌드에 포함되어 에러가 날 경우 `tsconfig.json`의 `exclude`에 `src/stories`, `**/*.stories.*`, `.storybook` 추가
+- 사용되지 않는 import/변수 에러는 IDE의 Organize Imports로 일괄 정리
+- `react-markdown` 코드블록 렌더링에서 타입 충돌 시, `SyntaxHighlighter`에 `...props`를 전달하지 않도록 수정하고 `inline`, `className`만 사용
+- Supabase 쿼리는 `PostgrestFilterBuilder` 자체가 Promise가 아니므로, `select()` 까지 호출한 thenable을 `Promise.all`에 push
+
+## 📚 문서
+
+- 프로젝트 설계 문서는 로컬 `markdown/` 디렉터리에 존재하며, 버전관리에서 제외됩니다(`.gitignore`).
+- 배포 리포지토리에는 포함되지 않으므로, 필요 시 별도 문서 저장소/노션 등과 연동을 권장합니다.
+
+## 🔐 보안 및 버전관리 주의
+
+- `.env.local`은 절대 커밋하지 않습니다. Vercel 환경변수를 사용하세요.
+- 민감정보가 과거에 커밋되었다면 키 롤테이션(재발급) 후, 히스토리 재작성(`git-filter-repo`/BFG)으로 완전 제거하세요.
+- 대용량 산출물(`node_modules/`, `dist/`, `storybook-static/`, `markdown/`)은 `.gitignore`로 제외되어 있습니다.
 
 ## 🤝 기여 방법
 

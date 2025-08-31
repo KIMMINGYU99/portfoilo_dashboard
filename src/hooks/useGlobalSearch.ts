@@ -36,7 +36,10 @@ export type GlobalSearchFilters = {
   debounceMs?: number;
 };
 
-export function useGlobalSearch(query: string, filters: GlobalSearchFilters = {}) {
+export function useGlobalSearch(
+  query: string,
+  filters: GlobalSearchFilters = {}
+) {
   const { debounceMs = 300, limit = 10 } = filters;
   const [debounced, setDebounced] = useState(query);
 
@@ -57,7 +60,14 @@ export function useGlobalSearch(query: string, filters: GlobalSearchFilters = {}
       (filters.blogTag || "").trim().toLowerCase(),
       limit,
     ],
-    [debounced, filters.type, filters.projectStatus, filters.blogStatus, filters.blogTag, limit]
+    [
+      debounced,
+      filters.type,
+      filters.projectStatus,
+      filters.blogStatus,
+      filters.blogTag,
+      limit,
+    ]
   );
 
   const queryFn = async (): Promise<GlobalSearchResult[]> => {
@@ -78,7 +88,7 @@ export function useGlobalSearch(query: string, filters: GlobalSearchFilters = {}
       if (filters.projectStatus && filters.projectStatus !== "all") {
         req = req.eq("status", filters.projectStatus);
       }
-      tasks.push(req);
+      tasks.push(req as unknown as Promise<any>);
     } else {
       tasks.push(Promise.resolve({ data: [] }));
     }
@@ -96,7 +106,7 @@ export function useGlobalSearch(query: string, filters: GlobalSearchFilters = {}
         // tags is array<string>
         req = req.contains("tags", [filters.blogTag.trim()]);
       }
-      tasks.push(req);
+      tasks.push(req as unknown as Promise<any>);
     } else {
       tasks.push(Promise.resolve({ data: [] }));
     }
@@ -107,7 +117,7 @@ export function useGlobalSearch(query: string, filters: GlobalSearchFilters = {}
         .select("id,name,category")
         .ilike("name", term)
         .limit(limit);
-      tasks.push(req);
+      tasks.push(req as unknown as Promise<any>);
     } else {
       tasks.push(Promise.resolve({ data: [] }));
     }

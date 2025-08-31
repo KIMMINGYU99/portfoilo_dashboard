@@ -34,5 +34,12 @@
     }
   },
   "include": ["src"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/stories",
+    "**/*.stories.*",
+    ".storybook"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

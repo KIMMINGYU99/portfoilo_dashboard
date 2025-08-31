@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import ActionButton from "@components/common/ActionButton";
 import type { CareerTimeline } from "@services/supabase";
 

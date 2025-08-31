@@ -82,9 +82,14 @@ export function useTechnologies(): UseTechnologiesReturn {
     refetch: async () => {
       await qc.invalidateQueries({ queryKey: ["technologies", "all"] });
     },
-    addTechnology: async (t) => addMutation.mutateAsync(t),
-    updateTechnology: async (id, data) =>
-      updateMutation.mutateAsync({ id, data }),
-    deleteTechnology: async (id) => deleteMutation.mutateAsync(id),
+    addTechnology: async (t) => {
+      await addMutation.mutateAsync(t);
+    },
+    updateTechnology: async (id, data) => {
+      await updateMutation.mutateAsync({ id, data });
+    },
+    deleteTechnology: async (id) => {
+      await deleteMutation.mutateAsync(id);
+    },
   };
 }

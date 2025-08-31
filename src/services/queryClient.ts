@@ -1,4 +1,4 @@
-import { QueryClient } from '@tanstack/react-query';
+import { QueryClient } from "@tanstack/react-query";
 
 let client: QueryClient | null = null;
 
@@ -7,9 +7,10 @@ export function getQueryClient(): QueryClient {
   client = new QueryClient({
     defaultOptions: {
       queries: {
-        retry: (failureCount, error) => {
+        retry: (failureCount) => {
           // 네트워크 오프라인이면 즉시 중단
-          if (typeof navigator !== 'undefined' && !navigator.onLine) return false;
+          if (typeof navigator !== "undefined" && !navigator.onLine)
+            return false;
           return failureCount < 2;
         },
         retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 8000),

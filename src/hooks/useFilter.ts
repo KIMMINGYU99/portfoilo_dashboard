@@ -53,7 +53,7 @@ export function useFilter<T extends Record<string, any>>(
 
           case "includes":
             if (Array.isArray(filterValue)) {
-              return filterValue.includes(itemValue);
+              return (filterValue as any[]).includes(itemValue as any);
             }
             if (
               typeof itemValue === "string" &&
@@ -67,8 +67,16 @@ export function useFilter<T extends Record<string, any>>(
 
           case "range":
             if (Array.isArray(filterValue) && filterValue.length === 2) {
-              const [min, max] = filterValue;
-              return itemValue >= min && itemValue <= max;
+              const [min, max] = filterValue as any[];
+              const toNum = (v: any) =>
+                typeof v === "number" ? v : Number(v as any);
+              const v = toNum(itemValue as any);
+              const vMin = toNum(min);
+              const vMax = toNum(max);
+              if (Number.isNaN(v) || Number.isNaN(vMin) || Number.isNaN(vMax)) {
+                return false;
+              }
+              return v >= vMin && v <= vMax;
             }
             return true;
 
@@ -125,14 +133,14 @@ export function useFilter<T extends Record<string, any>>(
 
 // 미리 정의된 필터 타입들
 export const createStatusFilter = <T extends { status: string }>(
-  statuses: string[]
+  _statuses: string[]
 ): FilterConfig<T> => ({
   key: "status",
   type: "includes",
 });
 
 export const createCategoryFilter = <T extends { category: string }>(
-  categories: string[]
+  _categories: string[]
 ): FilterConfig<T> => ({
   key: "category",
   type: "includes",
@@ -196,7 +204,7 @@ export function useFilterAndSearch<T extends Record<string, any>>(
               return itemValue === filterValue;
             case "includes":
               if (Array.isArray(filterValue)) {
-                return filterValue.includes(itemValue);
+                return (filterValue as any[]).includes(itemValue as any);
               }
               return itemValue
                 ?.toString()

@@ -120,6 +120,7 @@ export interface ProjectSchedule {
   all_day: boolean;
   status: "scheduled" | "in_progress" | "completed" | "cancelled";
   created_at: string;
+  updated_at?: string;
 }
 
 export interface BlogPost {

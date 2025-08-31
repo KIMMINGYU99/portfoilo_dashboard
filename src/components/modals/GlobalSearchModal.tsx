@@ -1,13 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../../services/supabase";
 import {
   MagnifyingGlassIcon,
   DocumentTextIcon,
   CodeBracketIcon,
   FolderIcon,
 } from "@heroicons/react/24/outline";
-import { getProjectThumbnailUrl } from "../../utils/media";
 
 type SearchResult =
   | {
@@ -44,7 +42,6 @@ export default function GlobalSearchModal({
   const [loading, setLoading] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const navigate = useNavigate();
-  const timerRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!isOpen) return;

@@ -94,7 +94,6 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setValue,
     watch,
   } = useForm<ProjectFormValues>({
     resolver: zodResolver(schema),
@@ -103,7 +102,8 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
   });
 
   // 한글 IME 조합 처리 (검색과 동일한 UX 일관성)
-  const [isComposingTitle, setIsComposingTitle] = useState(false);
+  // IME 조합 상태가 실제 로직에 사용되지 않으므로 주석처리
+  // const [isComposingTitle, setIsComposingTitle] = useState(false);
 
   // 기술 스택 로드 & 선택 상태
   const [techOptions, setTechOptions] = useState<Technology[]>([]);
@@ -185,14 +185,14 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
         <input
           type="text"
           {...register("title")}
-          onCompositionStart={() => setIsComposingTitle(true)}
-          onCompositionEnd={(e) => {
-            setIsComposingTitle(false);
-            setValue("title", (e.target as HTMLInputElement).value, {
-              shouldValidate: true,
-              shouldDirty: true,
-            });
-          }}
+          // onCompositionStart={() => setIsComposingTitle(true)}
+          // onCompositionEnd={(e) => {
+          //   setIsComposingTitle(false);
+          //   setValue("title", (e.target as HTMLInputElement).value, {
+          //     shouldValidate: true,
+          //     shouldDirty: true,
+          //   });
+          // }}
           className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 ${
             errors.title
               ? "border-red-500"
