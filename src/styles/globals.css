@@ -1,0 +1,160 @@
+@import "./variables.css";
+@import "./animations.css";
+@import "./components.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 기본 설정 */
+@layer base {
+  html {
+    font-family: var(--font-family-sans);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-gray-50 text-gray-900 antialiased dark:bg-gray-900 dark:text-gray-100;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  /* 스크롤바 커스터마이징 */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-gray-100);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-gray-300);
+    border-radius: var(--radius-full);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-gray-400);
+  }
+
+  /* 포커스 아웃라인 커스터마이징 */
+  :focus {
+    outline: 2px solid var(--color-primary-600);
+    outline-offset: 2px;
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+/* 기존 컴포넌트 스타일 유지 */
+@layer components {
+  .btn-primary {
+    @apply bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+  }
+
+  .card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6;
+  }
+}
+
+/* 커스텀 유틸리티 클래스 */
+@layer utilities {
+  /* react-big-calendar 다크 모드 보강 */
+  .rbc-calendar {
+    @apply dark:text-gray-100;
+  }
+  .rbc-toolbar,
+  .rbc-month-view,
+  .rbc-time-view,
+  .rbc-agenda-view {
+    @apply dark:bg-gray-900;
+  }
+  .rbc-month-view,
+  .rbc-time-view,
+  .rbc-agenda-view,
+  .rbc-time-header,
+  .rbc-time-content,
+  .rbc-agenda-table {
+    @apply dark:border-gray-700;
+  }
+  /* off-range & today cell backgrounds */
+  .rbc-off-range-bg {
+    background-color: rgba(148, 163, 184, 0.05);
+  }
+  .dark .rbc-today {
+    background-color: rgba(255, 255, 255, 0.05); /* 한 단계 더 밝게 */
+  }
+  .rbc-header,
+  .rbc-agenda-time-cell,
+  .rbc-agenda-date-cell {
+    @apply dark:text-gray-300;
+  }
+  .rbc-event {
+    @apply dark:text-white;
+  }
+  /* toolbar buttons (Month/Week/Day/Agenda + Today/Back/Next) */
+  .rbc-toolbar .rbc-btn-group button {
+    @apply dark:bg-gray-800 dark:text-gray-200 dark:border dark:border-gray-700 dark:hover:bg-gray-700;
+  }
+  .rbc-toolbar .rbc-btn-group button.rbc-active,
+  .rbc-toolbar .rbc-btn-group button:focus.rbc-active {
+    @apply dark:bg-primary-600 dark:text-white dark:border-primary-500;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* 텍스트 선택 비활성화 */
+  .select-none {
+    user-select: none;
+  }
+
+  /* 스크롤 영역 */
+  .scrollable {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-gray-300) var(--color-gray-100);
+  }
+
+  /* 글자 수 제한 */
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  /* 백드롭 블러 */
+  .backdrop-blur-sm {
+    backdrop-filter: blur(4px);
+  }
+
+  .backdrop-blur-md {
+    backdrop-filter: blur(8px);
+  }
+}
